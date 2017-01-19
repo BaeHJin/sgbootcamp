@@ -19,7 +19,7 @@
                     <td>{{userId}}</td>
                     <td>{{name}}</td>
                     <td>{{email}}</td>
-                    <td><a href="#" class="btn btn-success" role="button">수정</a></td>
+                    <td><a href="/user/{{id}}/form" class="btn btn-success" role="button">수정</a></td>
                 </tr>
               	{{/users}}
               </tbody>
@@ -29,8 +29,6 @@
 </div>
 
 <!-- script references -->
-<script src="../js/jquery-2.2.0.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/scripts.js"></script>
+{{> include/footer}}
 	</body>
 </html>

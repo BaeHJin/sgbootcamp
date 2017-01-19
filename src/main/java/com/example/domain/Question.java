@@ -2,20 +2,40 @@ package com.example.domain;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity	
 public class Question {
+	
+	@Id @GeneratedValue //고유한 아이디
+	private long id;
+	
+	@Column(length = 15, nullable = false)
 	private String writer;
+	
+	@Column(length = 15, nullable = false)
 	private String title;
+	
+	@Column(length = 100, nullable = false)
 	private String contents;
+	
+	@Column(length = 15, nullable = false)
 	private Date date;
 	
-	public Question(){};
+	public Question(){
+		this.date =  new Date();
+	};
 	
-	public Question(String writer, String title, String contents, Date date) {
+	public Question(long id,String writer, String title, String contents) {
 		super();
+		this.id = id;
 		this.writer = writer;
 		this.title = title;
 		this.contents = contents;
-		this.date = date;
+		this.date =  new Date();
 	}
 	
 	public Date getDate() {
