@@ -86,5 +86,8 @@ public class User {
 	public boolean checkId(long id) {
 		return this.id == id;
 	}
+	public boolean checkUserId(String userId) {
+		return this.userId.equals(userId);
+	}
 	
 }

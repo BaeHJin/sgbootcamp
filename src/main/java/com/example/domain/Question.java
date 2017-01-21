@@ -65,5 +65,9 @@ public class Question {
 		this.contents = content;
 	}
 	 
+	public void update(Question question){
+			this.contents = question.contents;
+			this.title = question.title;
+	}
 	 
 }
