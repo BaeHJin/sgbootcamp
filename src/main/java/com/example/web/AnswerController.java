@@ -13,37 +13,43 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.example.domain.Answer;
+import com.example.domain.AnswerRepository;
 import com.example.domain.Question;
-import com.example.domain.QuestionRepository;
 import com.example.domain.User;
 import com.example.utils.HttpSessionUtils;
 
 @Controller
-@RequestMapping()
-public class QuestionController {
+@RequestMapping("/questions/{questionId}/answers")
+public class AnswerController {
 	
-	private static final Logger log = LoggerFactory.getLogger(QuestionController.class);
+	private static final Logger log = LoggerFactory.getLogger(AnswerController.class);
 
 	@Autowired
-	private QuestionRepository questionRepository;
+	private AnswerRepository answerRepository;
 	
-	@PostMapping("/question")
-	public String qnacreate(HttpSession session, Question question){
+	@PostMapping("")
+	public String answerCreate(@PathVariable Long questionId, HttpSession session, String contents){
+		if(!HttpSessionUtils.isLoginUser(session)){
+			return "/users/loginForm";
+		}
 		
-		question.setWriter(HttpSessionUtils.getUserFromSession(session));
-		questionRepository.save(question);
-		log.debug(question+"");
+		Answer answer = new Answer();
+		answer.setWriter(HttpSessionUtils.getUserFromSession(session));
+		answerRepository.save(answer);
+		log.debug(answer.getContents()+"");
 		return "redirect:/";	
 	}
 	
-	@GetMapping("/")
-	public String questionlist(Model model){
-		model.addAttribute("questions", questionRepository.findAll());
+	@GetMapping("/answer/")
+	public String answerList(Model model){
+		model.addAttribute("questions", answerRepository.findAll());
 	return "/index";
 	}
 	
-	@GetMapping("/question/form")
-	public String qnapage(HttpSession session, Model model){
+	@GetMapping("/answer/form")
+	public String answerPage(HttpSession session, Model model){
 		User loginUser = (User)session.getAttribute(HttpSessionUtils.LOGIN_USER);
 		
 		if(loginUser == null){
@@ -53,43 +59,43 @@ public class QuestionController {
 	return "qna/form";
 	}
 	
-	@GetMapping("/question/{id}")
-	public String qnaDetailPage(Model model,  @PathVariable long id){
-		model.addAttribute("question",questionRepository.findOne(id));
+	@GetMapping("/answer/{id}")
+	public String answerDetailPage(Model model,  @PathVariable long id){
+		model.addAttribute("question",answerRepository.findOne(id));
 	return "qna/show";
 	}
 	
-	@GetMapping("/question/{id}/form")
-	public String updateForm(Question question, @PathVariable long id, HttpSession session, Model model){
+	@GetMapping("/answer/{id}/form")
+	public String updateForm(Answer answer, @PathVariable long id, HttpSession session, Model model){
 		
-		Question dbQuestion = questionRepository.findOne(id);
-		if(!checkOwner(dbQuestion.getWriter(), session)){
+		Answer dbAnswer = answerRepository.findOne(id);
+		if(!checkOwner(dbAnswer.getWriter(), session)){
 			return "/user/login";
 		}
-		model.addAttribute("question", dbQuestion);
+		model.addAttribute("answer", dbAnswer);
 				 
 		return "/qna/updateForm";	
 	}
 	
-	@PutMapping("/question/{id}/update")
-	public String update(Question question, @PathVariable long id, HttpSession session){
+	@PutMapping("/answer/{id}/update")
+	public String update(Answer answer, @PathVariable long id, HttpSession session){
 		
-		Question dbQuestion = questionRepository.findOne(id); 
-		dbQuestion.update(question);
-		questionRepository.save(dbQuestion);	//id값이 db에 없으면 insert로 되버린다.
+		Answer dbAnswer = answerRepository.findOne(id); 
+		dbAnswer.update(answer);
+		answerRepository.save(dbAnswer);	//id값이 db에 없으면 insert로 되버린다.
 										//근데 없어도 알아서 업데이트된다 orm메모리에서 알아서 판단해서 처리하기 때문 
 		
 		return "redirect:/";	
 	}
 	
-	@DeleteMapping("/question/{id}/delete")
+	@DeleteMapping("/answer/{id}/delete")
 	public String delete(Question question, @PathVariable long id, HttpSession session){
 		
-		Question dbQuestion = questionRepository.findOne(id);
-		if(!checkOwner(dbQuestion.getWriter(), session)){
+		Answer dbAnswer = answerRepository.findOne(id);
+		if(!checkOwner(dbAnswer.getWriter(), session)){
 			return "/user/login";
 		}
-		questionRepository.delete(dbQuestion);	//id값이 db에 없으면 insert로 되버린다.
+		answerRepository.delete(dbAnswer);	//id값이 db에 없으면 insert로 되버린다.
 										//근데 없어도 알아서 업데이트된다 orm메모리에서 알아서 판단해서 처리하기 때문 
 		
 		return "redirect:/";	

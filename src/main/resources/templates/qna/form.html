@@ -7,9 +7,7 @@
 <div class="container" id="main">
    <div class="col-md-12 col-sm-12 col-lg-10 col-lg-offset-1">
       <div class="panel panel-default content-main">
-      {{#userId}}
           <form name="question" method="post" action="/question">
-              <input type="hidden"  id="writer" name="writer" value="{{userId}}"/>
               <div class="form-group">
                   <label for="title">제목</label>
                   <input type="text" class="form-control" id="title" name="title" placeholder="제목"/>
@@ -21,7 +19,6 @@
               <button type="submit" class="btn btn-success clearfix pull-right">질문하기</button>
               <div class="clearfix" />
           </form>
-          {{/userId}}
         </div>
     </div>
 </div>

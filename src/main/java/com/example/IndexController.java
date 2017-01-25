@@ -8,11 +8,11 @@ public class IndexController {
 	
 	@GetMapping("/index")	
 	public String index(){
-		return "index";	
+		return "redirect:/";	
 	}
-	
-	@GetMapping("/")	
-	public String home(){
-		return "redirect:/index";	
-	}
+//	
+//	@GetMapping("/")	
+//	public String home(){
+//		return "redirect:/question/questions";	
+//	}
 }

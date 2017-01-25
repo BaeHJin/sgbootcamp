@@ -9,7 +9,6 @@
       <div class="panel panel-default content-main">
       {{#question}}
           <form name="question" method="post" action="/question/{{id}}/update">
-              <input type="hidden"  id="writer" name="writer" value="{{writer}}"/>
               <input type="hidden" name="_method" value="put">
               <div class="form-group">
                   <label for="title">제목</label>

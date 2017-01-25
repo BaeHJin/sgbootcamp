@@ -40,14 +40,14 @@ public class UserController {
 		return "redirect:/user/login.html";	
 	}
 	
-	@PostMapping("/create")
+	@PostMapping
 	public String create(User user){
 		log.debug(user+" ");
 		userRepository.save(user);
 		return "redirect:/user/list2";	
 	}
 	
-	@PutMapping("/{id}/update")
+	@PutMapping("/{id}")
 	public String update(User user, @PathVariable long id, HttpSession session){
 		
 		checkOwner(id, session);
@@ -76,7 +76,7 @@ public class UserController {
 		return "user/login";
 	}
 	
-	@GetMapping("/{id}/form")
+	@GetMapping("/{id}")
 	public String updateForm(@PathVariable long id, Model model, HttpSession session){
 		checkOwner(id, session);
 		model.addAttribute("user", userRepository.findOne(id));
@@ -86,12 +86,12 @@ public class UserController {
 	private void checkOwner(long id, HttpSession session) {
 		Object temp = session.getAttribute(HttpSessionUtils.LOGIN_USER);
 		if(temp == null){
-			throw new IllegalStateException("로그인 하지 않은 사용자.");
+			throw new IllegalStateException("로그인 하지 않은 사용자.1111111111");
 		}
 		User loginUser =  HttpSessionUtils.getUserFromSession(session);
 		log.debug(id+"------------"+loginUser.getId());
 		if(!loginUser.checkId(id)){
-			throw new IllegalStateException("다른 사용자 정보를 수정할 수 없습니다.");
+			throw new IllegalStateException("다른 사용자 정보를 수정할 수 없습니다.2222222222");
 		}
 	}
 	

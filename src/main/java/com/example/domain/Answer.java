@@ -6,11 +6,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.ForeignKey;
 
 @Entity	
-public class Question {
+public class Answer {
 	
 	@Id @GeneratedValue //고유한 아이디
 	private long id;
@@ -18,33 +20,26 @@ public class Question {
 	@ManyToOne
 	private User writer;
 	
-//	@OneToMany(mappedBy="question")
-//	private Answer answer;
+	@ManyToOne
+	private Question question;
 	
-//	@Column(length = 15, nullable = false)
-//	private String writer;
-	
-	@Column(length = 15, nullable = false)
-	private String title;
-	
-	@Column(length = 100, nullable = false)
+	@Column(length = 100)
 	private String contents;
 	
 	@Column(length = 15, nullable = false)
 	private Date date;
 	
-	public Question(){
+	public Answer(){
 		this.date =  new Date();
 	};
 	
-	public Question(long id, User writer, String title, String contents) {
+	public Answer(long id, User writer, Question question, String contents) {
 		super();
 		this.id = id;
 		this.writer = writer;
-		this.title = title;
+		this.question = question;
 		this.contents = contents;
 		this.date =  new Date();
-		//this.answer = answer; , Answer answer
 	}
 	
 	public Date getDate() {
@@ -61,12 +56,7 @@ public class Question {
 	public void setWriter(User writer) {
 		this.writer = writer; 
 	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
+
 	public String getContents() {
 		return contents;
 	}
@@ -74,9 +64,8 @@ public class Question {
 		this.contents = content;
 	}
 	 
-	public void update(Question question){
-			this.contents = question.contents;
-			this.title = question.title;
+	public void update(Answer answer){
+			this.contents = answer.contents;
 	}
 	 
 }

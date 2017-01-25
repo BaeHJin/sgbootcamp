@@ -19,7 +19,7 @@
                           <img src="https://graph.facebook.com/v2.3/100000059371774/picture" class="article-author-thumb" alt="">
                       </div>
                       <div class="article-header-text">
-                          <a href="/users/92/kimmunsu" class="article-author-name">{{writer}}</a>
+                          <a href="/users/92/kimmunsu" class="article-author-name">{{#writer}}{{userId}}{{/writer}}</a>
                           <a href="/questions/413" class="article-header-time" title="퍼머링크">
                               {{date}}
                               <i class="icon-link"></i>
@@ -46,7 +46,7 @@
                       </ul>
                   </div>
               </article>
-		{{/question}}
+	
               <div class="qna-comment">
                   <div class="qna-comment-slipp">
                       <p class="qna-comment-count"><strong>2</strong>개의 의견</p>
@@ -110,21 +110,27 @@
                                   </ul>
                               </div>
                           </article>
-                          <form class="submit-write">
+                          <form class="submit-write" name="answer" method="post" action="/questions/{{id}}/answers">
                               <div class="form-group" style="padding:14px;">
-                                  <textarea class="form-control" placeholder="Update your status"></textarea>
+                                  <textarea name="contents" class="form-control" placeholder="Update your status"></textarea>
                               </div>
-                              <button class="btn btn-success pull-right" type="button">답변하기</button>
+                               <input type="hidden" name="question">
+                              <button class="btn btn-success pull-right" type="submit">답변하기</button>
                               <div class="clearfix" />
                           </form>
                       </div>
                   </div>
               </div>
           </div>
+         {{/question}}
         </div>
     </div>
 </div>
 
+
+
+<!-- script references -->
+{{> include/footer}}
 <script type="text/template" id="answerTemplate">
 	<article class="article">
 		<div class="article-header">
@@ -153,8 +159,5 @@
 		</div>
 	</article>
 </script>
-
-<!-- script references -->
-{{> include/footer}}
 	</body>
 </html>
